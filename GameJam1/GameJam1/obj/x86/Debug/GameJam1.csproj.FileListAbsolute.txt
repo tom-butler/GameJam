@@ -1,0 +1,9 @@
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\obj\x86\Debug\GameJam1.csprojResolveAssemblyReference.cache
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\bin\x86\Debug\GameJam1.exe
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\bin\x86\Debug\GameJam1.pdb
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\bin\x86\Debug\GameLibrary.dll
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\bin\x86\Debug\GameLibrary.pdb
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\obj\x86\Debug\GameJam1.exe
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\obj\x86\Debug\GameJam1.pdb
+F:\local\cs\Game\GameJam1\GameJam1\GameJam1\bin\x86\Debug\Content\images\sand.xnb

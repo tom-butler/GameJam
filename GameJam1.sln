@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJam1", "GameJam1\GameJam1\GameJam1.csproj", "{45EF7DC2-24B5-49C7-B0CA-7C9A4BE0D7DD}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GameJam1Content", "GameJam1\GameJam1Content\GameJam1Content.contentproj", "{529A7E64-05ED-442C-B7E1-020CA7769470}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLibrary", "GameLibrary\GameLibrary\GameLibrary.csproj", "{F2C1BAFF-2DAF-4A57-B4BE-A88C64E3EE7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45EF7DC2-24B5-49C7-B0CA-7C9A4BE0D7DD}.Debug|x86.ActiveCfg = Debug|x86
+		{45EF7DC2-24B5-49C7-B0CA-7C9A4BE0D7DD}.Debug|x86.Build.0 = Debug|x86
+		{45EF7DC2-24B5-49C7-B0CA-7C9A4BE0D7DD}.Release|x86.ActiveCfg = Release|x86
+		{45EF7DC2-24B5-49C7-B0CA-7C9A4BE0D7DD}.Release|x86.Build.0 = Release|x86
+		{529A7E64-05ED-442C-B7E1-020CA7769470}.Debug|x86.ActiveCfg = Debug|x86
+		{529A7E64-05ED-442C-B7E1-020CA7769470}.Release|x86.ActiveCfg = Release|x86
+		{F2C1BAFF-2DAF-4A57-B4BE-A88C64E3EE7C}.Debug|x86.ActiveCfg = Debug|x86
+		{F2C1BAFF-2DAF-4A57-B4BE-A88C64E3EE7C}.Debug|x86.Build.0 = Debug|x86
+		{F2C1BAFF-2DAF-4A57-B4BE-A88C64E3EE7C}.Release|x86.ActiveCfg = Release|x86
+		{F2C1BAFF-2DAF-4A57-B4BE-A88C64E3EE7C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
