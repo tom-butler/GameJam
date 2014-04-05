@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameJam1
 {
-    class Player : GameObject
+    class Character : GameObject
     {
         const float VELOCITY = 3f;
 
-        public Player(Texture2D texture, Vector2 pos)
+        public Character(Texture2D texture, Vector2 pos)
             : base(texture, "DaPlaya", pos, texture.Width /3, texture.Height /4)
         {
         }
@@ -37,6 +37,9 @@ namespace GameJam1
 
         public override void Update(KeyboardState prevState, KeyboardState currentState)
         {
+            if (name != "DaPlaya")
+                return;
+
             if (currentState.IsKeyDown(Keys.Left))
                 pos.X -= VELOCITY;
             else if(currentState.IsKeyDown(Keys.Right))

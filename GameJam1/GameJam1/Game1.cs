@@ -82,7 +82,7 @@ namespace GameJam1
                 gameObjects.Add(obj.name, obj);
             }
 
-            gameObjects.Add("player", new Player(textureList["player"], WINDOW_CENTRE));
+            gameObjects.Add("player", new Character(textureList["player"], WINDOW_CENTRE));
         }
 
         /// <summary>
@@ -138,9 +138,9 @@ namespace GameJam1
             foreach (var g in gameObjects)
             {
                 if (g.Key == "player")
-                    ((Player)g.Value).Draw(spriteBatch,new Vector2(1,1));
+                    ((Character)g.Value).Draw(spriteBatch,new Vector2(1,1));
                 else
-                    g.Value.Draw(spriteBatch);
+                    ((Character)g.Value).Draw(spriteBatch, new Vector2(1,1));
             }
             
 
