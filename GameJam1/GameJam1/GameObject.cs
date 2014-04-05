@@ -13,8 +13,6 @@ namespace GameJam1
     class GameObject
     {
         protected Texture2D texture;
-        protected int spriteHeight;
-        protected int spriteWidth;
         public BoundingBox boundingBox;
         public Vector2 pos;
         public String name;
@@ -34,12 +32,7 @@ namespace GameJam1
             this.name = name;
             this.texture = texture;
             this.pos = pos;
-            this.spriteHeight = spriteHeight;
-            this.spriteWidth = spriteWidth;
-
-            //create the bounding box
-            boundingBox = new BoundingBox( pos, spriteWidth, spriteHeight,1.0f);
-            boundingBox.Update(pos);
+            boundingBox = new BoundingBox( pos, 1, 1, 1.0f);
         }
 
         public virtual void Update(KeyboardState prevState, KeyboardState currentState)

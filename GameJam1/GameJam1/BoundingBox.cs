@@ -29,25 +29,32 @@ namespace GameJam1
             this.height = (int ) (spriteHeight * scale);
             this.colour = Color.Red;
         }
-        public void Update(Vector2 position)
+        public void Update(Vector2 position, Vector2 size)
         {
+            height = (int)size.Y;
+            width = (int)size.X;
 
-            p1 = new Vector2(
-                    (float)(position.X + (width / 2) * Math.Cos(heading) - (height / 2) * Math.Sin(heading)),
-                    (float)(position.Y + (height / 2) * Math.Cos(heading) + (width / 2) * Math.Sin(heading))
-                   );
-            p2 = new Vector2(
-                    (float)(position.X - (width / 2) * Math.Cos(heading) - (height / 2) * Math.Sin(heading)),
-                    (float)(position.Y + (height / 2) * Math.Cos(heading) - (width / 2) * Math.Sin(heading))
-                   );
-            p3 = new Vector2(
-                    (float)(position.X - (width / 2) * Math.Cos(heading) + (height / 2) * Math.Sin(heading)),
-                    (float)(position.Y - (height / 2) * Math.Cos(heading) - (width / 2) * Math.Sin(heading))
-                   );
-            p4 = new Vector2(
-                    (float)(position.X + (width / 2) * Math.Cos(heading) + (height / 2) * Math.Sin(heading)),
-                    (float)(position.Y - (height / 2) * Math.Cos(heading) + (width / 2) * Math.Sin(heading))
-                   );
+            p1 = position;
+            p2 = position; p2.X += width;
+            p3 = position + new Vector2(width, height);
+            p4 = position + new Vector2(0, height);
+
+            //p1 = new Vector2(
+            //        (float)(position.X * Math.Cos(heading) - (height / 2) * Math.Sin(heading)),
+            //        (float)(position.Y * Math.Cos(heading) + (width / 2) * Math.Sin(heading))
+            //        );
+            //p2 = new Vector2(
+            //        (float)(position.X * Math.Cos(heading) - (height / 2) * Math.Sin(heading)),
+            //        (float)(position.Y * Math.Cos(heading) - (width / 2) * Math.Sin(heading))
+            //        );
+            //p3 = new Vector2(
+            //        (float)(position.X * Math.Cos(heading) + (height / 2) * Math.Sin(heading)),
+            //        (float)(position.Y * Math.Cos(heading) - (width / 2) * Math.Sin(heading))
+            //        );
+            //p4 = new Vector2(
+            //        (float)(position.X * Math.Cos(heading) + (height / 2) * Math.Sin(heading)),
+            //        (float)(position.Y * Math.Cos(heading) + (width / 2) * Math.Sin(heading))
+            //        );
 
         }
         /// <summary>

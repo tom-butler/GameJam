@@ -37,6 +37,15 @@
       <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\villager2.xnb</Output>
       <Time>2014-04-05T12:15:50.799248+11:00</Time>
     </Item>
+    <Item>
+      <Source>images\flames.png</Source>
+      <Name>images\flames</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\flames.xnb</Output>
+      <Time>2014-04-05T16:13:22.8522106+11:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

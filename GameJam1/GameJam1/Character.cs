@@ -61,7 +61,7 @@ namespace GameJam1
                 pos.X += displacement.X;
                 pos.Y += displacement.Y;
                 UpdateAnimation(displacement);
-                this.boundingBox.Update(pos);
+                this.boundingBox.Update(pos, GetCurrentSize());
             }
             else
             {
@@ -164,6 +164,12 @@ namespace GameJam1
                     ChangeDirection(Direction.Up);
                 }
             }
+        }
+
+        protected Vector2 GetCurrentSize()
+        {
+            Rectangle r = animations[direction].GetCurrentFrame();
+            return new Vector2(r.Width, r.Height);
         }
     }
 }

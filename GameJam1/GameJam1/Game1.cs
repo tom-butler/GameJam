@@ -70,6 +70,9 @@ namespace GameJam1
         /// </summary>
         protected override void LoadContent()
         {
+            //Files downloaded from:
+            // - http://opengameart.org/content/lpc-flames
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //load the background texture
@@ -77,7 +80,10 @@ namespace GameJam1
             textureList.Add("player", this.Content.Load<Texture2D>(@"images/player"));
             textureList.Add("villager1", this.Content.Load<Texture2D>(@"images/villager1"));
             textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/villager2"));
+            //textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/flames"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
+            textureList["empty"].SetData(new Color[] { Color.White });
+
             LevelGenerator generator = new LevelGenerator(textureList);
             foreach (GameObject obj in generator.generate())
             {

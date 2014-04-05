@@ -47,7 +47,7 @@ namespace GameJam1
             {
                 UpdateAnimation(null);
             }
-            this.boundingBox.Update(pos);
+            this.boundingBox.Update(pos, GetCurrentSize());
         
         }
     }
