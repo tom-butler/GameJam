@@ -16,7 +16,7 @@ namespace GameJam1
         protected Texture2D texture;
         protected Vector2[,] spriteMap;
         protected int spriteHeight;
-        proteccted int spriteWidth;
+        protected int spriteWidth;
 
         public GameObject(Texture2D texture, String name)
         {
@@ -33,7 +33,7 @@ namespace GameJam1
             init(texture, name, pos.X, pos.Y, texture.Height, texture.Width);
         }
 
-        public GameObject(Texture2D texture, String name, Vector2 pos, int spriteHeight, int spriteWidth)
+        public GameObject(Texture2D texture, String name, Vector2 pos, int spriteWidth, int spriteHeight)
         {
             init(texture, name, pos.X, pos.Y, spriteHeight, spriteWidth);
         }

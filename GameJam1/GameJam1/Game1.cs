@@ -130,7 +130,7 @@ namespace GameJam1
             foreach (var g in gameObjects)
             {
                 if (g.Key == "player")
-                    ((Player)g.Value).Draw(spriteBatch, WINDOW_CENTRE);
+                    ((Player)g.Value).Draw(spriteBatch,new Vector2(1,1), WINDOW_CENTRE);
                 else
                     g.Value.Draw(spriteBatch);
             }

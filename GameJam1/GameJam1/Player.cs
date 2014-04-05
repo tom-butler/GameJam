@@ -13,7 +13,7 @@ namespace GameJam1
         const float VELOCITY = 3f;
 
         public Player(Texture2D texture, Vector2 pos)
-            : base(texture, "DaPlaya", pos)
+            : base(texture, "DaPlaya", pos, texture.Width /3, texture.Height /4)
         {
         }
 
@@ -23,7 +23,17 @@ namespace GameJam1
                 position = pos;
 
             spritebatch.Draw(texture, position.Value, null, Color.White, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0f);
+
         }
+        public void Draw(SpriteBatch spritebatch, Vector2 frame, Vector2? position = null)
+        {
+            if (position == null)
+                position = pos;
+
+            spritebatch.Draw(texture, pos, new Rectangle((int)(spriteMap[(int)frame.X, (int)frame.Y].X),(int) (spriteMap[(int)frame.X, (int)frame.Y].Y), this.spriteWidth, this.spriteHeight), Color.White);
+
+        }
+        
 
         public override void Update(KeyboardState prevState, KeyboardState currentState)
         {
