@@ -41,8 +41,11 @@ namespace GameJam1
                 speed.Y = (float)(VELOCITY * Math.Sin(Util.DegToRad(heading)));
 
                 this.pos = new Vector2(pos.X + speed.X, pos.Y + speed.Y);
-
-
+                UpdateAnimation(speed);
+            } 
+            else
+            {
+                UpdateAnimation(null);
             }
             this.boundingBox.Update(pos);
         
