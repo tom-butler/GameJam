@@ -24,6 +24,8 @@ namespace GameJam1
         Dictionary<string, GameObject> gameObjects;
         string state;
         static KeyboardState keystate;
+        static bool isDebug;
+
 
         //constants
         const int WINDOW_HEIGHT = 640;
@@ -75,7 +77,7 @@ namespace GameJam1
             textureList.Add("player", this.Content.Load<Texture2D>(@"images/player"));
             textureList.Add("villager1", this.Content.Load<Texture2D>(@"images/villager1"));
             textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/villager2"));
-
+            textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             LevelGenerator generator = new LevelGenerator(textureList);
             foreach (GameObject obj in generator.generate())
             {
@@ -104,9 +106,26 @@ namespace GameJam1
             KeyboardState prevKeyState = keystate;
             keystate = Keyboard.GetState();
 
+            if (keystate.IsKeyDown(Keys.B) && !prevKeyState.IsKeyDown(Keys.B))
+            {
+                if (isDebug)
+                    isDebug = false;
+                else
+                    isDebug = true;
+            }
+
             foreach (var g in gameObjects)
             {
-                g.Value.Update(prevKeyState, keystate);
+
+                if (g.Key.StartsWith("villager"))
+                {
+                    ((Villager)g.Value).Update(gameObjects["player"]);
+                }
+                else
+                {
+                    g.Value.Update(prevKeyState, keystate);
+                }
+
             }
 
             // Allows the game to exit
@@ -141,6 +160,14 @@ namespace GameJam1
                     ((Character)g.Value).Draw(spriteBatch,new Vector2(1,1));
                 else
                     ((Character)g.Value).Draw(spriteBatch, new Vector2(1,1));
+            }
+            //draw bounding boxes
+            if (isDebug)
+            {
+                foreach (var g in gameObjects)
+                {
+                        g.Value.DrawBB(spriteBatch, textureList["empty"]);
+                }
             }
             
 

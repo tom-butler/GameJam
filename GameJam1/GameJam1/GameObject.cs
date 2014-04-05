@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GameLibrary;
 
 
 namespace GameJam1
@@ -17,6 +18,7 @@ namespace GameJam1
         protected Vector2[,] spriteMap;
         protected int spriteHeight;
         protected int spriteWidth;
+        public BoundingBox boundingBox;
 
         public GameObject(Texture2D texture, String name)
         {
@@ -51,6 +53,9 @@ namespace GameJam1
             this.spriteHeight = spriteHeight;
             this.spriteWidth = spriteWidth;
 
+            //create the bounding box
+            boundingBox = new BoundingBox( pos, spriteWidth, spriteHeight,1.0f);
+            boundingBox.Update(pos);
             //create the spritemap
             this.spriteMap = new Vector2[spriteRows, spriteColumns];
             
@@ -80,6 +85,10 @@ namespace GameJam1
         public virtual void Draw(SpriteBatch spritebatch, Vector2 frame)
         {
             spritebatch.Draw(texture, pos, new Rectangle((int) frame.X, (int) frame.Y, spriteWidth, spriteHeight), Color.White);
+        }
+        public void DrawBB(SpriteBatch spritebatch, Texture2D tex)
+        {
+            boundingBox.Draw(spritebatch, tex);
         }
     }
 }

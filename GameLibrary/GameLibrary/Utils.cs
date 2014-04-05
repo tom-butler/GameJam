@@ -140,6 +140,70 @@ namespace GameLibrary
         public static float epsilonf = 0.001f; // for the aproximately equal routines 
 
         /// <summary>
+        /// Converts Degrees to Radians
+        /// </summary>
+        /// <param name="angle">Angle in Degrees</param>
+        /// <returns>Angle in Radians</returns>
+        public static double DegToRad(float angle)
+        {
+            return Math.PI * angle / 180.0;
+        }
+
+        /// <summary>
+        /// Converts Radians to Degrees
+        /// </summary>
+        /// <param name="angle">Angle in Radians</param>
+        /// <returns>Angle in Degrees</returns>
+        public static double DegToRad(double angle)
+        {
+            return angle * (180.0 / Math.PI);
+        }
+        /// <summary>
+        /// Gets the angle between two points
+        /// </summary>
+        /// <param name="p1">point one (origin)</param>
+        /// <param name="p2">point two (destinatin)</param>
+        /// <returns>float angle in Rad</returns>
+        public static float PointAngle(Vector2 p1, Vector2 p2)
+        {
+            float xDiff = p2.X - p1.X;
+            float yDiff = p2.Y - p1.Y;
+            return (float)(Math.Atan2(yDiff, xDiff) * (180 / Math.PI));
+        }
+        /// <summary>
+        /// Gets the distance between two points
+        /// </summary>
+        /// <param name="p1">point one</param>
+        /// <param name="p2">point two</param>
+        /// <returns></returns>
+        public static float PointDist(Vector2 p1, Vector2 p2)
+        {
+            float xDiff = p1.X - p2.X;
+            float yDiff = p1.Y - p2.Y;
+            return (float)(Math.Sqrt((Math.Pow(xDiff, 2) + Math.Pow(yDiff, 2))));
+        }
+        /// <summary>
+        /// Draws a line between two points
+        /// from http://stackoverflow.com/questions/16403809/drawing-lines-in-c-sharp-with-xna
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="begin">start point</param>
+        /// <param name="end">end point</param>
+        /// <param name="tex"></param>
+        /// <param name="color"></param>
+        /// <param name="width"></param>
+        public static void DrawLine(SpriteBatch spriteBatch, Vector2 begin, Vector2 end, Texture2D tex, Color color, int width = 1)
+        {
+            Rectangle r = new Rectangle((int)begin.X, (int)begin.Y, (int)(end - begin).Length() + width, width);
+            Vector2 v = Vector2.Normalize(begin - end);
+            float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
+            if (begin.Y > end.Y) angle = MathHelper.TwoPi - angle;
+            spriteBatch.Draw(tex, r, null, color, angle, Vector2.Zero, SpriteEffects.None, 0);
+        }
+
+
+
+        /// <summary>
         /// Pythagorean distance
         /// </summary>
         /// <param name="p1"></param>

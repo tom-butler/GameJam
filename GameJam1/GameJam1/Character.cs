@@ -49,6 +49,8 @@ namespace GameJam1
                 pos.Y -= VELOCITY;
             else if (currentState.IsKeyDown(Keys.Down))
                 pos.Y += VELOCITY;
+
+            this.boundingBox.Update(pos);
         }
     }
 }
