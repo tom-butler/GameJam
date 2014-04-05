@@ -22,9 +22,12 @@ namespace GameJam1
         SpriteBatch spriteBatch;
         Dictionary<string, Texture2D> textureList;
         Dictionary<string, GameObject> gameObjects;
+        static int hits = 0;
         string state;
         static KeyboardState keystate;
         static bool isDebug;
+        static SpriteFont debugFont;
+        static SpriteFont guiFont;
 
 
         //constants
@@ -84,6 +87,10 @@ namespace GameJam1
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
 
+            //Load the font
+            debugFont = Content.Load<SpriteFont>(@"fonts/debug");
+            guiFont = Content.Load<SpriteFont>(@"fonts/gui");
+
             LevelGenerator generator = new LevelGenerator(textureList);
             foreach (GameObject obj in generator.generate())
             {
@@ -112,6 +119,10 @@ namespace GameJam1
             KeyboardState prevKeyState = keystate;
             keystate = Keyboard.GetState();
 
+            // Allows the game to exit
+            if (keystate.IsKeyDown(Keys.Escape))
+                this.Exit();
+
             if (keystate.IsKeyDown(Keys.B) && !prevKeyState.IsKeyDown(Keys.B))
             {
                 if (isDebug)
@@ -134,11 +145,18 @@ namespace GameJam1
 
             }
 
-            // Allows the game to exit
-            if (keystate.IsKeyDown(Keys.Escape))
-                this.Exit();
-            
-            // TODO: Add your update logic here
+            foreach (var g in gameObjects)
+            {
+                if (g.Key != "player")
+                {
+                    if(gameObjects["player"].boundingBox.collides(g.Value) && !g.Value.isColliding)
+                    {
+                        g.Value.isColliding = true;
+                        hits++;
+                        //g.Value.isOnFire = true
+                    }
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -173,8 +191,15 @@ namespace GameJam1
                 foreach (var g in gameObjects)
                 {
                         g.Value.DrawBB(spriteBatch, textureList["empty"]);
+                        if (g.Value.isColliding == true)
+                        {
+                            spriteBatch.DrawString(debugFont, "collided", g.Value.pos, Color.Red);
+                        }
+                        spriteBatch.DrawString(debugFont, g.Value.pos.ToString(), g.Value.pos + new Vector2 ( 0, 10), Color.Red);
                 }
             }
+            //draw Gui
+            spriteBatch.DrawString(guiFont, hits.ToString(), gameObjects["player"].pos + new Vector2(300, 270), Color.Red);
             
 
             #endregion

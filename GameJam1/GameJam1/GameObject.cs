@@ -16,6 +16,7 @@ namespace GameJam1
         public BoundingBox boundingBox;
         public Vector2 pos;
         public String name;
+        public bool isColliding = false;
 
         public GameObject(Texture2D texture)
             : this(texture, new Vector2(0, 0), "anonymous")

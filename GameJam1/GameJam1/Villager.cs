@@ -11,7 +11,7 @@ namespace GameJam1
 {
     class Villager : Character
     {
-        int sightRadius = 500;
+        int sightRadius = 600;
         float heading;
         const float VELOCITY = 2f;
         static Vector2 speed;
@@ -42,12 +42,13 @@ namespace GameJam1
 
                 this.pos = new Vector2(pos.X + speed.X, pos.Y + speed.Y);
                 UpdateAnimation(speed);
+                this.boundingBox.Update(pos, GetCurrentSize());
             } 
             else
             {
                 UpdateAnimation(null);
             }
-            this.boundingBox.Update(pos, GetCurrentSize());
+            
         
         }
     }
