@@ -17,3 +17,5 @@ H:\GameJam\GameJam1\GameJam1\obj\x86\Debug\GameJam1.csprojResolveAssemblyReferen
 H:\GameJam\GameJam1\GameJam1\obj\x86\Debug\GameJam1.exe
 H:\GameJam\GameJam1\GameJam1\obj\x86\Debug\GameJam1.pdb
 H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\player.xnb
+H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\villager1.xnb
+H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\villager2.xnb

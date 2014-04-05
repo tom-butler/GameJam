@@ -17,7 +17,25 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\player.xnb</Output>
-      <Time>2014-04-05T11:40:42.6632514+11:00</Time>
+      <Time>2014-04-05T12:15:50.779248+11:00</Time>
+    </Item>
+    <Item>
+      <Source>images\villager1.png</Source>
+      <Name>images\villager1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\villager1.xnb</Output>
+      <Time>2014-04-05T12:15:50.790248+11:00</Time>
+    </Item>
+    <Item>
+      <Source>images\villager2.png</Source>
+      <Name>images\villager2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\villager2.xnb</Output>
+      <Time>2014-04-05T12:15:50.799248+11:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
