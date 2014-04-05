@@ -17,5 +17,23 @@ namespace GameJam1
             Texture = tex;
             Frames = frames;
         }
+
+        public static Animation BySplittingTexture(Texture2D tex, int rows, int cols)
+        {
+            int width = tex.Width / cols;
+            int height = tex.Height / rows;
+
+            Rectangle[] frames = new Rectangle[rows * cols];
+            for (int r = 0; r < rows; ++r)
+            {
+                for (int c = 0; c < cols; ++c)
+                {
+                    int i = r * cols + c;
+                    frames[i] = new Rectangle(c * width, r * height, width, height);
+                    frames[i].Inflate(-1, -1);
+                }
+            }
+            return new Animation(tex, frames);
+        }
     }
 }

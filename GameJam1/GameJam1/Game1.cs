@@ -15,7 +15,7 @@ namespace GameJam1
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    class Game1 : Microsoft.Xna.Framework.Game
     {
         //global
         GraphicsDeviceManager graphics;
@@ -34,6 +34,19 @@ namespace GameJam1
         const int WINDOW_HEIGHT = 640;
         const int WINDOW_WIDTH = 800;
         static Vector2 WINDOW_CENTRE = new Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+
+        private static Game1 instance;
+        public static Game1 Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Game1();
+                }
+                return instance;
+            }
+        }
 
         public Game1()
         {
@@ -83,7 +96,7 @@ namespace GameJam1
             textureList.Add("player", this.Content.Load<Texture2D>(@"images/player"));
             textureList.Add("villager1", this.Content.Load<Texture2D>(@"images/villager1"));
             textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/villager2"));
-            //textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/flames"));
+            textureList.Add("flames", this.Content.Load<Texture2D>(@"images/flames"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
 
@@ -98,6 +111,7 @@ namespace GameJam1
             }
 
             gameObjects.Add("player", new Character(textureList["player"], WINDOW_CENTRE));
+            gameObjects["player"].Ignite();
         }
 
         /// <summary>
@@ -180,10 +194,7 @@ namespace GameJam1
             //draw game objects
             foreach (var g in gameObjects)
             {
-                if (g.Key == "player")
-                    ((Character)g.Value).Draw(spriteBatch,new Vector2(1,1));
-                else
-                    ((Character)g.Value).Draw(spriteBatch, new Vector2(1,1));
+                g.Value.Draw(spriteBatch);
             }
             //draw bounding boxes
             if (isDebug)
@@ -206,6 +217,11 @@ namespace GameJam1
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public Flames makeFlames()
+        {
+            return new Flames(textureList["flames"]);
         }
     }
 }

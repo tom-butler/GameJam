@@ -22,7 +22,6 @@ namespace GameJam1
 
         private Dictionary<Direction, AnimationInstance> animations;
         private Direction direction;
-        private bool movedThisUpdate = false;
 
         public Character(Texture2D texture, Vector2 pos)
             : base(texture, pos, "DaPlaya")
@@ -36,19 +35,10 @@ namespace GameJam1
             ChangeDirection(Direction.Down);
         }
 
-        public void Draw(SpriteBatch spritebatch)
+        public override void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(texture, pos, null, Color.White, 0f, new Vector2(0,0), 1f, SpriteEffects.None, 0f);
-        }
-
-        public void Draw(SpriteBatch spritebatch, Vector2 frame, Vector2? position = null)
-        {
-            if (position == null)
-                position = pos;
-
-            spritebatch.Draw(texture, pos, animations[direction].GetCurrentFrame(), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //spritebatch.Draw(texture, pos, new Rectangle((int)(spriteMap[(int)frame.X, (int)frame.Y].X),(int) (spriteMap[(int)frame.X, (int)frame.Y].Y), this.spriteWidth, this.spriteHeight), Color.White);
-
+            animations[direction].Draw(spritebatch, pos);
+            base.Draw(spritebatch);
         }
         
 
@@ -67,6 +57,8 @@ namespace GameJam1
             {
                 UpdateAnimation(null);
             }
+
+            base.Update(prevState, currentState);
         }
 
         protected void UpdateAnimation(Vector2? displacement)
@@ -121,12 +113,14 @@ namespace GameJam1
 
             int width = texture.Width / FRAMES_PER_ROW;
             int height = texture.Height / 4;
-            Rectangle[] frames = new Rectangle[FRAMES_PER_ROW];
+            Rectangle[] frames = new Rectangle[FRAMES_PER_ROW + 1];
             for (int col = 0; col < FRAMES_PER_ROW; ++col)
             {
                 frames[col] = new Rectangle(col*width, height*row, width, height);
                 frames[col].Inflate(-1, -1);
             }
+            frames[FRAMES_PER_ROW] = frames[1]; //repeating pattern
+            
 
             return new AnimationInstance(new Animation(texture, frames), 4f);
         }

@@ -17,6 +17,7 @@ namespace GameJam1
         public Vector2 pos;
         public String name;
         public bool isColliding = false;
+        public Flames flames;
 
         public GameObject(Texture2D texture)
             : this(texture, new Vector2(0, 0), "anonymous")
@@ -38,16 +39,31 @@ namespace GameJam1
 
         public virtual void Update(KeyboardState prevState, KeyboardState currentState)
         {
+            if (flames != null)
+            {
+                flames.pos = pos + new Vector2(-5, -55);
+                flames.Update(prevState, currentState);
+            }
         }
 
         public virtual void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(texture, pos, Color.White);
+            //spritebatch.Draw(texture, pos, Color.White);
+            if (flames != null)
+                flames.Draw(spritebatch);
         }
 
         public void DrawBB(SpriteBatch spritebatch, Texture2D tex)
         {
             boundingBox.Draw(spritebatch, tex);
+        }
+
+        public void Ignite()
+        {
+            if (flames != null)
+                return;
+
+            flames = Game1.Instance.makeFlames();
         }
     }
 }

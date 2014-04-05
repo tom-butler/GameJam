@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam1
 {
@@ -10,7 +11,6 @@ namespace GameJam1
     {
         private int currentFrame = 0;
         private float secsElapsed = 0f;
-        private bool backwards = false;
         private bool running = true;
 
         public Animation Animation { get; set; }
@@ -57,28 +57,20 @@ namespace GameJam1
             secsElapsed = 0f;
         }
 
+        public void Draw(SpriteBatch spriteBatch, Vector2 position)
+        {
+            spriteBatch.Draw(Animation.Texture, position, GetCurrentFrame(), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+        }
+
         private void GoNextFrame()
         {
-            if (backwards)
+            if (currentFrame >= Animation.Frames.Length - 1)
             {
-                if(currentFrame <= 0){
-                    backwards = false;
-                    currentFrame = 1;
-                } 
-                else
-                {
-                    currentFrame -= 1;
-                }
-            } else {
-                if (currentFrame >= Animation.Frames.Length - 1)
-                {
-                    currentFrame = Animation.Frames.Length - 2;
-                    backwards = true;
-                }
-                else
-                {
-                    currentFrame += 1;
-                }
+                currentFrame = 0;
+            } 
+            else
+            {
+                currentFrame += 1;
             }
         }
     }
