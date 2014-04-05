@@ -123,12 +123,16 @@ namespace GameJam1
 
             #region draw
             //draw the background
-            spriteBatch.Draw(textureList["background"], new Vector2(0, 0), new Rectangle((int)WINDOW_WIDTH, (int)WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
+            var p = gameObjects["player"].pos;
+            spriteBatch.Draw(textureList["background"], new Vector2(0, 0), new Rectangle((int)p.X, (int)p.Y, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
 
             //draw game objects
             foreach (var g in gameObjects)
             {
-                g.Value.Draw(spriteBatch);
+                if (g.Key == "player")
+                    ((Player)g.Value).Draw(spriteBatch, WINDOW_CENTRE);
+                else
+                    g.Value.Draw(spriteBatch);
             }
             
 

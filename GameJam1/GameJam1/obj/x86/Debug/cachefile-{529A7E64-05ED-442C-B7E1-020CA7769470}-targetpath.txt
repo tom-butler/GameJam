@@ -1,4 +1,0 @@
-Content\images\sand.xnb
-Content\images\player.xnb
-Content\images\villager1.xnb
-Content\images\villager2.xnb

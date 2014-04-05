@@ -17,9 +17,12 @@ namespace GameJam1
         {
         }
 
-        public override void Draw(SpriteBatch spritebatch)
+        public void Draw(SpriteBatch spritebatch, Vector2? position = null)
         {
-            spritebatch.Draw(texture, pos, null, Color.White, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0f);
+            if (position == null)
+                position = pos;
+
+            spritebatch.Draw(texture, position.Value, null, Color.White, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0f);
         }
 
         public override void Update(KeyboardState prevState, KeyboardState currentState)
