@@ -48,8 +48,8 @@ namespace GameJam1
             {
                 UpdateAnimation(null);
             }
-            
-        
+
+            base.Update();
         }
     }
 }

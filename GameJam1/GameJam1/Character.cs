@@ -18,8 +18,6 @@ namespace GameJam1
             Right
         }
 
-        const float VELOCITY = 3f;
-
         private Dictionary<Direction, AnimationInstance> animations;
         private Direction direction;
 
@@ -42,23 +40,10 @@ namespace GameJam1
         }
         
 
-        public override void Update(KeyboardState prevState, KeyboardState currentState)
+        public override void Update()
         {
-            Vector2? directionVec = CalculateMovementDirection(prevState, currentState);
-            if (directionVec.HasValue)
-            {
-                Vector2 displacement = VELOCITY * directionVec.Value;
-                pos.X += displacement.X;
-                pos.Y += displacement.Y;
-                UpdateAnimation(displacement);
-                this.boundingBox.Update(pos, GetCurrentSize());
-            }
-            else
-            {
-                UpdateAnimation(null);
-            }
-
-            base.Update(prevState, currentState);
+            this.boundingBox.Update(pos, GetCurrentSize());
+            base.Update();
         }
 
         protected void UpdateAnimation(Vector2? displacement)
@@ -75,36 +60,6 @@ namespace GameJam1
                 animations[direction].Reset(1);
                 animations[direction].Stop();
             }
-        }
-
-        private Vector2? CalculateMovementDirection(KeyboardState prevState, KeyboardState currentState)
-        {
-            if (name != "DaPlaya")
-                return null;
-
-            Vector2 directionVec = new Vector2(0, 0);
-            if (currentState.IsKeyDown(Keys.Left))
-            {
-                directionVec.X -= 1f;
-            }
-            else if (currentState.IsKeyDown(Keys.Right))
-            {
-                directionVec.X += 1f;
-            }
-
-            if (currentState.IsKeyDown(Keys.Up))
-            {
-                directionVec.Y -= 1f;
-            }
-            else if (currentState.IsKeyDown(Keys.Down))
-            {
-                directionVec.Y += 1f;
-            }
-
-            if (directionVec.Length() > 0)
-                return Vector2.Normalize(directionVec);
-            else
-                return null;
         }
 
         private AnimationInstance MakeAnimationFromRowOfTexture(Texture2D texture, int row)

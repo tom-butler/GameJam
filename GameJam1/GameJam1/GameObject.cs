@@ -37,12 +37,12 @@ namespace GameJam1
             boundingBox = new BoundingBox( pos, 1, 1, 1.0f);
         }
 
-        public virtual void Update(KeyboardState prevState, KeyboardState currentState)
+        public virtual void Update()
         {
             if (flames != null)
             {
-                flames.pos = pos + new Vector2(-5, -55);
-                flames.Update(prevState, currentState);
+                flames.pos = pos + new Vector2(-5, -40);
+                flames.Update();
             }
         }
 

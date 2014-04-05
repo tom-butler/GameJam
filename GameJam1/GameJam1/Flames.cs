@@ -18,7 +18,7 @@ namespace GameJam1
             animation = new AnimationInstance(a, 12);
         }
 
-        public override void Update(KeyboardState prevState, KeyboardState currentState)
+        public override void Update()
         {
             animation.Update(1f / 60f);
         }

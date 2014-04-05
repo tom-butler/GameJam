@@ -110,7 +110,7 @@ namespace GameJam1
                 gameObjects.Add(obj.name, obj);
             }
 
-            gameObjects.Add("player", new Character(textureList["player"], WINDOW_CENTRE));
+            gameObjects.Add("player", new Player(textureList["player"], WINDOW_CENTRE));
             gameObjects["player"].Ignite();
         }
 
@@ -152,9 +152,13 @@ namespace GameJam1
                 {
                     ((Villager)g.Value).Update(gameObjects["player"]);
                 }
+                else if (g.Key == "player")
+                {
+                    ((Player)g.Value).Update(keystate);
+                }
                 else
                 {
-                    g.Value.Update(prevKeyState, keystate);
+                    g.Value.Update();
                 }
 
             }
@@ -167,7 +171,7 @@ namespace GameJam1
                     {
                         g.Value.isColliding = true;
                         hits++;
-                        //g.Value.isOnFire = true
+                        g.Value.Ignite();
                     }
                 }
             }
