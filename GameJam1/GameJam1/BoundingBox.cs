@@ -69,24 +69,31 @@ namespace GameJam1
             Util.DrawLine(spritebatch, p3, p4, tex, colour);
             Util.DrawLine(spritebatch, p4, p1, tex, colour);
         }
+        public Rectangle GetRect()
+        {
+            return new Rectangle((int)p1.X, (int)p1.Y, (int)(p2.X - p1.X), (int)(p4.Y - p1.Y));
+        }
+
         public bool collides(GameObject o)
         {
-            bool coll = false;
-            Vector2[] poly = { p1, p2, p3, p4 };
-            coll = Util.insidePoly(o.boundingBox.p1, poly, 4);
-            if (coll)
-                return coll;
-            coll = Util.insidePoly(o.boundingBox.p2, poly, 4);
-            if (coll)
-                return coll;
-            coll = Util.insidePoly(o.boundingBox.p3, poly, 4);
-            if (coll)
-                return coll;
-            coll = Util.insidePoly(o.boundingBox.p4, poly, 4);
-            if (coll)
-                return coll;
-            else
-                return coll;
+            return GetRect().Intersects(o.boundingBox.GetRect());
+
+            //bool coll = false;
+            //Vector2[] poly = { p1, p2, p3, p4 };
+            //coll = Util.insidePoly(o.boundingBox.p1, poly, 4);
+            //if (coll)
+            //    return coll;
+            //coll = Util.insidePoly(o.boundingBox.p2, poly, 4);
+            //if (coll)
+            //    return coll;
+            //coll = Util.insidePoly(o.boundingBox.p3, poly, 4);
+            //if (coll)
+            //    return coll;
+            //coll = Util.insidePoly(o.boundingBox.p4, poly, 4);
+            //if (coll)
+            //    return coll;
+            //else
+            //    return coll;
         }
 
     }
