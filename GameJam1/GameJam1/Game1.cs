@@ -73,10 +73,16 @@ namespace GameJam1
             //load the background texture
             textureList.Add("background", this.Content.Load<Texture2D>(@"images/sand"));
             textureList.Add("player", this.Content.Load<Texture2D>(@"images/player"));
+            textureList.Add("villager1", this.Content.Load<Texture2D>(@"images/villager1"));
+            textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/villager2"));
+
+            LevelGenerator generator = new LevelGenerator(textureList);
+            foreach (GameObject obj in generator.generate())
+            {
+                gameObjects.Add(obj.name, obj);
+            }
 
             gameObjects.Add("player", new Player(textureList["player"], WINDOW_CENTRE));
-
-
         }
 
         /// <summary>
@@ -118,19 +124,21 @@ namespace GameJam1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            Vector2 playerPos = gameObjects["player"].pos;
             GraphicsDevice.Clear(Color.SandyBrown);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null);
+            Matrix transform = Matrix.CreateTranslation(-playerPos.X + WINDOW_CENTRE.X, -playerPos.Y + WINDOW_CENTRE.Y, 0);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, transform);
 
             #region draw
             //draw the background
-            var p = gameObjects["player"].pos;
-            spriteBatch.Draw(textureList["background"], new Vector2(0, 0), new Rectangle((int)p.X, (int)p.Y, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
+            Vector2 backgroundPos = Vector2.Transform(new Vector2(0, 0), Matrix.Invert(transform));
+            spriteBatch.Draw(textureList["background"], backgroundPos, new Rectangle((int)playerPos.X, (int)playerPos.Y, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
 
             //draw game objects
             foreach (var g in gameObjects)
             {
                 if (g.Key == "player")
-                    ((Player)g.Value).Draw(spriteBatch, WINDOW_CENTRE);
+                    ((Player)g.Value).Draw(spriteBatch);
                 else
                     g.Value.Draw(spriteBatch);
             }
