@@ -38,24 +38,6 @@ namespace GameJam1
             p2 = position; p2.X += width;
             p3 = position + new Vector2(width, height);
             p4 = position + new Vector2(0, height);
-
-            //p1 = new Vector2(
-            //        (float)(position.X * Math.Cos(heading) - (height / 2) * Math.Sin(heading)),
-            //        (float)(position.Y * Math.Cos(heading) + (width / 2) * Math.Sin(heading))
-            //        );
-            //p2 = new Vector2(
-            //        (float)(position.X * Math.Cos(heading) - (height / 2) * Math.Sin(heading)),
-            //        (float)(position.Y * Math.Cos(heading) - (width / 2) * Math.Sin(heading))
-            //        );
-            //p3 = new Vector2(
-            //        (float)(position.X * Math.Cos(heading) + (height / 2) * Math.Sin(heading)),
-            //        (float)(position.Y * Math.Cos(heading) - (width / 2) * Math.Sin(heading))
-            //        );
-            //p4 = new Vector2(
-            //        (float)(position.X * Math.Cos(heading) + (height / 2) * Math.Sin(heading)),
-            //        (float)(position.Y * Math.Cos(heading) + (width / 2) * Math.Sin(heading))
-            //        );
-
         }
         /// <summary>
         /// Draws the bounding box
@@ -77,23 +59,6 @@ namespace GameJam1
         public bool collides(GameObject o)
         {
             return GetRect().Intersects(o.boundingBox.GetRect());
-
-            //bool coll = false;
-            //Vector2[] poly = { p1, p2, p3, p4 };
-            //coll = Util.insidePoly(o.boundingBox.p1, poly, 4);
-            //if (coll)
-            //    return coll;
-            //coll = Util.insidePoly(o.boundingBox.p2, poly, 4);
-            //if (coll)
-            //    return coll;
-            //coll = Util.insidePoly(o.boundingBox.p3, poly, 4);
-            //if (coll)
-            //    return coll;
-            //coll = Util.insidePoly(o.boundingBox.p4, poly, 4);
-            //if (coll)
-            //    return coll;
-            //else
-            //    return coll;
         }
 
     }

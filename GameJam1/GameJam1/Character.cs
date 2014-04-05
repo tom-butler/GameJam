@@ -77,7 +77,7 @@ namespace GameJam1
             frames[FRAMES_PER_ROW] = frames[1]; //repeating pattern
             
 
-            return new AnimationInstance(new Animation(texture, frames), 4f);
+            return new AnimationInstance(new Animation(texture, frames), AnimationFPS());
         }
 
         private void ChangeDirection(Direction dir)
@@ -119,6 +119,11 @@ namespace GameJam1
         {
             Rectangle r = animations[direction].GetCurrentFrame();
             return new Vector2(r.Width, r.Height);
+        }
+
+        protected virtual float AnimationFPS()
+        {
+            return 4f;
         }
     }
 }

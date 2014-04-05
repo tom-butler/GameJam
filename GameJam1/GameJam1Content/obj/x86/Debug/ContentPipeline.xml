@@ -64,6 +64,24 @@
       <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\fonts\gui.xnb</Output>
       <Time>2014-04-05T17:26:20.4111148+11:00</Time>
     </Item>
+    <Item>
+      <Source>sounds\scream2.wav</Source>
+      <Name>sounds\scream2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\sounds\scream2.xnb</Output>
+      <Time>2014-04-06T09:49:35.8841057+10:00</Time>
+    </Item>
+    <Item>
+      <Source>sounds\scream3.mp3</Source>
+      <Name>sounds\scream3</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\sounds\scream3.xnb</Output>
+      <Time>2014-04-06T09:49:35.9031057+10:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

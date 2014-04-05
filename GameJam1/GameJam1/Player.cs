@@ -10,7 +10,7 @@ namespace GameJam1
 {
     class Player : Character
     {
-        const float VELOCITY = 3f;
+        const float VELOCITY = 10f;
 
         public Player(Texture2D tex, Vector2 pos)
             : base(tex, pos)
@@ -59,6 +59,16 @@ namespace GameJam1
                 return Vector2.Normalize(directionVec);
             else
                 return null;
+        }
+
+        protected override float AnimationFPS()
+        {
+            return VELOCITY * 2f;
+        }
+
+        public override void TakeDamage(float damage)
+        {
+            //do nothing. can't die
         }
     }
 }

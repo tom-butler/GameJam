@@ -17,7 +17,8 @@ namespace GameJam1
         public Vector2 pos;
         public String name;
         public bool isColliding = false;
-        public Flames flames;
+        private Flames flames;
+        private float health;
 
         public GameObject(Texture2D texture)
             : this(texture, new Vector2(0, 0), "anonymous")
@@ -34,6 +35,7 @@ namespace GameJam1
             this.name = name;
             this.texture = texture;
             this.pos = pos;
+            health = 100;
             boundingBox = new BoundingBox( pos, 1, 1, 1.0f);
         }
 
@@ -43,6 +45,7 @@ namespace GameJam1
             {
                 flames.pos = pos + new Vector2(-5, -40);
                 flames.Update();
+                TakeDamage(0.5f);
             }
         }
 
@@ -58,12 +61,41 @@ namespace GameJam1
             boundingBox.Draw(spritebatch, tex);
         }
 
-        public void Ignite()
+        public virtual void Ignite()
         {
             if (flames != null)
                 return;
 
             flames = Game1.Instance.makeFlames();
+            flames.pos = pos + new Vector2(-5, -40);
+        }
+
+        public virtual void TakeDamage(float damage)
+        {
+            if (IsDead())
+                return;
+            
+            health -= damage;
+            if (health <= 0f)
+            {
+                OnDeath();
+                health = 0f;
+            }
+        }
+
+        public bool IsAlive()
+        {
+            return health > 0f;
+        }
+
+        public bool IsDead()
+        {
+            return !IsAlive();
+        }
+
+        private void OnDeath()
+        {
+            flames = null;
         }
     }
 }

@@ -30,6 +30,9 @@ namespace GameJam1
         /// <param name="?"></param>
         public void Update(GameObject player)
         {
+            if (IsDead())
+                return;
+
             float distance = Util.PointDist(this.pos, player.pos);
             if (distance < sightRadius)
             {
@@ -50,6 +53,25 @@ namespace GameJam1
             }
 
             base.Update();
+        }
+
+        public override void Draw(SpriteBatch spritebatch)
+        {
+            if (IsDead())
+            {
+                //TODO: here
+            }
+            else
+            {
+                base.Draw(spritebatch);
+            }
+        }
+
+        public override void Ignite()
+        {
+            Random r = new Random();
+            Game1.Instance.playSound(r.Next() % 2 == 0 ? "scream1" : "scream2");
+            base.Ignite();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace GameJam1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Dictionary<string, Texture2D> textureList;
+        Dictionary<string, SoundEffect> sounds;
         Dictionary<string, GameObject> gameObjects;
         static int hits = 0;
         string state;
@@ -99,6 +100,10 @@ namespace GameJam1
             textureList.Add("flames", this.Content.Load<Texture2D>(@"images/flames"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
+
+            sounds = new Dictionary<string, SoundEffect>();
+            sounds.Add("scream1", this.Content.Load<SoundEffect>(@"sounds/scream2"));
+            sounds.Add("scream2", this.Content.Load<SoundEffect>(@"sounds/scream3"));
 
             //Load the font
             debugFont = Content.Load<SpriteFont>(@"fonts/debug");
@@ -226,6 +231,11 @@ namespace GameJam1
         public Flames makeFlames()
         {
             return new Flames(textureList["flames"]);
+        }
+
+        public void playSound(string name)
+        {
+            sounds[name].Play();
         }
     }
 }
