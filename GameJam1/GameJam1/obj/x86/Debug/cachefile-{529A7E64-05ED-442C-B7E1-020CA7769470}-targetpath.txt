@@ -1,1 +1,2 @@
 Content\images\sand.xnb
+Content\images\player.xnb

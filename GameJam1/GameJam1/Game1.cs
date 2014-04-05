@@ -20,9 +20,10 @@ namespace GameJam1
         //global
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Dictionary<string, Texture2D> textureList;
+        Dictionary<string, GameObject> gameObjects;
         string state;
-        SpriteList sprites;
-        Texture2D background;
+        static KeyboardState keystate;
 
         //constants
         const int WINDOW_HEIGHT = 640;
@@ -44,7 +45,10 @@ namespace GameJam1
         protected override void Initialize()
         {
             //initilise number of sprites
-            sprites = new SpriteList(100);
+            gameObjects = new Dictionary<string, GameObject>();
+            
+            // initialise the texture list;
+            textureList = new Dictionary<string, Texture2D>();
 
             //set starting state should be menu (later)
             state = "playing";
@@ -67,9 +71,10 @@ namespace GameJam1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //load the background texture
-            background = this.Content.Load<Texture2D>(@"images/sand");
-            //load the player
-            //load textures here
+            textureList.Add("background", this.Content.Load<Texture2D>(@"images/sand"));
+            textureList.Add("player", this.Content.Load<Texture2D>(@"images/player"));
+
+            gameObjects.Add("player", new Player(textureList["player"], WINDOW_CENTRE));
 
 
         }
@@ -90,10 +95,18 @@ namespace GameJam1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            KeyboardState prevKeyState = keystate;
+            keystate = Keyboard.GetState();
 
+            foreach (var g in gameObjects)
+            {
+                g.Value.Update(prevKeyState, keystate);
+            }
+
+            // Allows the game to exit
+            if (keystate.IsKeyDown(Keys.Escape))
+                this.Exit();
+            
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -110,7 +123,14 @@ namespace GameJam1
 
             #region draw
             //draw the background
-            spriteBatch.Draw(background, new Vector2(0, 0), new Rectangle((int) WINDOW_WIDTH, (int) WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
+            spriteBatch.Draw(textureList["background"], new Vector2(0, 0), new Rectangle((int)WINDOW_WIDTH, (int)WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
+
+            //draw game objects
+            foreach (var g in gameObjects)
+            {
+                g.Value.Draw(spriteBatch);
+            }
+            
 
             #endregion
 

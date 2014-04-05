@@ -107,6 +107,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObject.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
@@ -116,6 +118,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GameLibrary\GameLibrary\GameLibrary.csproj">
+      <Project>{F2C1BAFF-2DAF-4A57-B4BE-A88C64E3EE7C}</Project>
+      <Name>GameLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameJam1Content\GameJam1Content.contentproj">
       <Name>GameJam1Content</Name>
       <XnaReferenceType>Content</XnaReferenceType>
