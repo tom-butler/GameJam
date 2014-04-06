@@ -39,7 +39,7 @@ namespace GameJam1
             string objectName = "villager" + nextCounter();
             Vector2 position = new Vector2((float)random.Next((int)-RADIUS, (int)RADIUS), (float)random.Next((int)-RADIUS, (int)RADIUS));
 
-            Character p =  new Villager(textures[textureName], position);
+            Character p =  new Villager(textures[textureName], textures["corpse"], position);
             p.name = objectName;
             return p;
         }
