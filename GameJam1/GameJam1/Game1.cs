@@ -121,6 +121,7 @@ namespace GameJam1
             textureList.Add("lose_screen", this.Content.Load<Texture2D>(@"images/failed"));
             textureList.Add("bar", this.Content.Load<Texture2D>(@"images/bar"));
             textureList.Add("pentagram", this.Content.Load<Texture2D>(@"images/pentagram"));
+            textureList.Add("trail", this.Content.Load<Texture2D>(@"images/trail"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
 
@@ -438,6 +439,11 @@ namespace GameJam1
         public bool CanMovePlayer()
         {
             return state == State.Running;
+        }
+
+        public Texture2D GetTexture(string name)
+        {
+            return textureList[name];
         }
     }
 }
