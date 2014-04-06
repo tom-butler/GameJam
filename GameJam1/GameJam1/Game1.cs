@@ -17,6 +17,14 @@ namespace GameJam1
     /// </summary>
     class Game1 : Microsoft.Xna.Framework.Game
     {
+        enum State
+        {
+            Title,
+            Running,
+            Lose,
+            Win
+        }
+
         //global
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -24,8 +32,9 @@ namespace GameJam1
         Dictionary<string, SoundEffect> sounds;
         Dictionary<string, GameObject> gameObjects;
         Song music;
+        float timeRemaining;
         static int hits = 0;
-        string state;
+        State state;
         static KeyboardState keystate;
         static bool isDebug;
         static SpriteFont debugFont;
@@ -71,7 +80,7 @@ namespace GameJam1
             textureList = new Dictionary<string, Texture2D>();
 
             //set starting state should be menu (later)
-            state = "title";
+            state = State.Title;
 
             //set the window size
             graphics.IsFullScreen = false;
@@ -100,6 +109,8 @@ namespace GameJam1
             textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/villager2"));
             textureList.Add("flames", this.Content.Load<Texture2D>(@"images/flames"));
             textureList.Add("title_screen", this.Content.Load<Texture2D>(@"images/title_screen"));
+            textureList.Add("win_screen", this.Content.Load<Texture2D>(@"images/win_screen"));
+            textureList.Add("lose_screen", this.Content.Load<Texture2D>(@"images/lose_screen"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
 
@@ -108,20 +119,10 @@ namespace GameJam1
             sounds.Add("scream2", this.Content.Load<SoundEffect>(@"sounds/scream3"));
 
             music = this.Content.Load<Song>(@"sounds/DST-ClubFight");
-            MediaPlayer.Play(music);
 
             //Load the font
             debugFont = Content.Load<SpriteFont>(@"fonts/debug");
             guiFont = Content.Load<SpriteFont>(@"fonts/gui");
-
-            LevelGenerator generator = new LevelGenerator(textureList);
-            foreach (GameObject obj in generator.generate())
-            {
-                gameObjects.Add(obj.name, obj);
-            }
-
-            gameObjects.Add("player", new Player(textureList["player"], WINDOW_CENTRE));
-            gameObjects["player"].Ignite();
         }
 
         /// <summary>
@@ -140,14 +141,39 @@ namespace GameJam1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (state == State.Running)
+                UpdateGameScreen();
+            else
+                RunGameOnSpacePressed();
+            
+
+            base.Update(gameTime);
+        }
+
+        private void RunGameOnSpacePressed()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) || Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                timeRemaining = 20f;
+                state = State.Running;
+                MediaPlayer.Play(music);
+
+                gameObjects.Clear();
+                LevelGenerator generator = new LevelGenerator(textureList);
+                foreach (GameObject obj in generator.generate())
+                {
+                    gameObjects.Add(obj.name, obj);
+                }
+                gameObjects.Add("player", new Player(textureList["player"], WINDOW_CENTRE));
+            }
+        }
+
+        private void UpdateGameScreen()
+        {
             KeyboardState prevKeyState = keystate;
             keystate = Keyboard.GetState();
 
-            if (state == "title" && (keystate.GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed))
-            {
-                state = "running";
-                return;
-            }
+            
 
             // Allows the game to exit
             if (keystate.IsKeyDown(Keys.Escape))
@@ -183,7 +209,7 @@ namespace GameJam1
             {
                 if (g.Key != "player")
                 {
-                    if(gameObjects["player"].boundingBox.collides(g.Value) && !g.Value.isColliding)
+                    if (gameObjects["player"].boundingBox.collides(g.Value) && !g.Value.isColliding)
                     {
                         g.Value.isColliding = true;
                         hits++;
@@ -192,7 +218,12 @@ namespace GameJam1
                 }
             }
 
-            base.Update(gameTime);
+            timeRemaining -= 1f / 60f;
+            if (timeRemaining <= 0f)
+            {
+                state = State.Lose;
+                MediaPlayer.Stop();
+            }
         }
 
         /// <summary>
@@ -203,13 +234,31 @@ namespace GameJam1
         {
             GraphicsDevice.Clear(Color.SandyBrown);
 
-            if (state == "title")
+            if (state == State.Running)
             {
-                DrawTitleScreen();
+                DrawGameScreen();
             }
             else
             {
-                DrawGameScreen();
+                Texture2D screen = null;
+                switch (state)
+                {
+                    case State.Title:
+                        screen = textureList["title_screen"];
+                        break;
+                    case State.Lose:
+                        screen = textureList["lose_screen"];
+                        break;
+                    case State.Win:
+                        screen = textureList["win_screen"];
+                        break;
+                    default:
+                        throw new Exception("Unhandled screen");
+                }
+
+                spriteBatch.Begin();
+                spriteBatch.Draw(screen, new Vector2(0, 0), Color.White);
+                spriteBatch.End();
             }
             
             base.Draw(gameTime);
@@ -223,13 +272,6 @@ namespace GameJam1
         public void playSound(string name)
         {
             sounds[name].Play();
-        }
-
-        private void DrawTitleScreen()
-        {
-            spriteBatch.Begin();
-            spriteBatch.Draw(textureList["title_screen"], new Vector2(0, 0), Color.White);
-            spriteBatch.End();
         }
 
         private void DrawGameScreen()
