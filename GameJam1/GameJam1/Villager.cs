@@ -15,11 +15,17 @@ namespace GameJam1
         float heading;
         const float VELOCITY = 2f;
         static Vector2 speed;
+        Texture2D corpse;
+        int angle;
+        int deathtick = 0;
+        int step = 1;
 
-        public Villager(Texture2D texture, Vector2 position)
+        public Villager(Texture2D texture, Texture2D corpse, Vector2 position)
             : base(texture, position)
         {
-           
+            this.corpse = corpse;
+            Random rand = new Random();
+            this.angle = rand.Next(0, 360);
         }
 
         /// <summary>
@@ -57,9 +63,18 @@ namespace GameJam1
 
         public override void Draw(SpriteBatch spritebatch)
         {
-            if (IsDead())
+            if (deathtick > (4 * 60))
+                return;
+            else if (IsDead())
             {
-                //TODO: here
+                if (deathtick % 30 == 0)
+                    step = -step;
+
+                if(step > 0)
+                    spritebatch.Draw(corpse, pos, new Rectangle((texture.Width / 3), 0, texture.Width / 3, texture.Height / 4), Color.White, (float) Util.DegToRad((float) 0), new Vector2(0,0),1f, SpriteEffects.FlipHorizontally,0);
+                if(step < 0)
+                    spritebatch.Draw(corpse, pos, new Rectangle((texture.Width / 3), 0, texture.Width / 3, texture.Height / 4), Color.White, (float)Util.DegToRad((float)0), new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                deathtick++;
             }
             else
             {

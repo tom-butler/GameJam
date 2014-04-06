@@ -94,9 +94,10 @@ namespace GameJam1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //load the background texture
             textureList.Add("background", this.Content.Load<Texture2D>(@"images/sand"));
-            textureList.Add("player", this.Content.Load<Texture2D>(@"images/player"));
+            textureList.Add("player", this.Content.Load<Texture2D>(@"images/player2"));
             textureList.Add("villager1", this.Content.Load<Texture2D>(@"images/villager1"));
             textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/villager2"));
+            textureList.Add("corpse", this.Content.Load<Texture2D>(@"images/burnt"));
             textureList.Add("flames", this.Content.Load<Texture2D>(@"images/flames"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
