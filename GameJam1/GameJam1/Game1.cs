@@ -113,8 +113,8 @@ namespace GameJam1
             textureList.Add("corpse", this.Content.Load<Texture2D>(@"images/burnt"));
             textureList.Add("flames", this.Content.Load<Texture2D>(@"images/flames"));
             textureList.Add("title_screen", this.Content.Load<Texture2D>(@"images/title_screen"));
-            textureList.Add("win_screen", this.Content.Load<Texture2D>(@"images/win_screen"));
-            textureList.Add("lose_screen", this.Content.Load<Texture2D>(@"images/lose_screen"));
+            textureList.Add("win_screen", this.Content.Load<Texture2D>(@"images/success"));
+            textureList.Add("lose_screen", this.Content.Load<Texture2D>(@"images/failed"));
             textureList.Add("bar", this.Content.Load<Texture2D>(@"images/bar"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
@@ -367,7 +367,7 @@ namespace GameJam1
                 barWidth = player.RampagePercentLeft();
 
             if (barWidth > 0)
-                Util.DrawLine(spriteBatch, new Vector2(cameraCenter.X - 198, cameraCenter.Y + 293), new Vector2(cameraCenter.X + (barWidth * 4 - 200), cameraCenter.Y + 293), textureList["empty"], Color.Red, 15);
+                Util.DrawLine(spriteBatch, new Vector2(cameraCenter.X - 198, cameraCenter.Y + 293), new Vector2(cameraCenter.X + (barWidth * 4 - 198), cameraCenter.Y + 293), textureList["empty"], Color.Red, 15);
             spriteBatch.Draw(textureList["bar"], new Vector2(cameraCenter.X - 200, cameraCenter.Y + 90), null, Color.White, 0, new Vector2(0, 0), 2.1f, SpriteEffects.None, 0);
 
            
