@@ -369,10 +369,16 @@ namespace GameJam1
             if (player.IsRampaging())
                 barWidth = player.RampagePercentLeft();
 
+            Color barColor = player.RampageFlash() ? Color.White : Color.Red;
+
             if (barWidth > 0)
-                Util.DrawLine(spriteBatch, new Vector2(cameraCenter.X - 198, cameraCenter.Y + 293), new Vector2(cameraCenter.X + (barWidth * 4 - 198), cameraCenter.Y + 293), textureList["empty"], Color.Red, 15);
+                Util.DrawLine(spriteBatch, new Vector2(cameraCenter.X - 198, cameraCenter.Y + 293), new Vector2(cameraCenter.X + (barWidth * 4 - 198), cameraCenter.Y + 293), textureList["empty"], barColor, 15);
             spriteBatch.Draw(textureList["bar"], new Vector2(cameraCenter.X - 200, cameraCenter.Y + 90), null, Color.White, 0, new Vector2(0, 0), 2.1f, SpriteEffects.None, 0);
 
+            if (player.RampageFlash())
+            {
+                spriteBatch.DrawString(guiFont, "RAMPAGE!", cameraCenter + new Vector2(-100, -300), Color.Red);
+            }
            
 
             spriteBatch.DrawString(guiFont, "Villagers: " + hits.ToString(), cameraCenter + new Vector2(230, 280), Color.Red);

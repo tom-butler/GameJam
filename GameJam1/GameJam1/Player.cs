@@ -126,5 +126,10 @@ namespace GameJam1
         {
             return scale * base.GetCurrentSize();
         }
+
+        public bool RampageFlash()
+        {
+            return IsRampaging() && ((rampageRemaining/10) % 2) == 0;
+        }
     }
 }
