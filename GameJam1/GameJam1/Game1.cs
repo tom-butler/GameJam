@@ -33,7 +33,7 @@ namespace GameJam1
         Dictionary<string, GameObject> gameObjects;
         Song music;
         float timeRemaining;
-        static int hits = 0;
+        int hits;
         State state;
         static KeyboardState keystate;
         static bool isDebug;
@@ -156,18 +156,22 @@ namespace GameJam1
 
         private void RunGameOnSpacePressed()
         {
+            MediaPlayer.Stop();
+
             if (Keyboard.GetState().IsKeyDown(Keys.Space) || Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 points = 0;
-                timeRemaining = 20f;
+                timeRemaining = 30f;
                 state = State.Running;
                 MediaPlayer.Play(music);
+                hits = 0;
 
                 gameObjects.Clear();
                 LevelGenerator generator = new LevelGenerator(textureList);
                 foreach (GameObject obj in generator.generate())
                 {
                     gameObjects.Add(obj.name, obj);
+                    hits++;
                 }
                 gameObjects.Add("player", new Player(textureList["player"], WINDOW_CENTRE));
             }
@@ -216,9 +220,11 @@ namespace GameJam1
                     if (gameObjects["player"].boundingBox.collides(g.Value) && !g.Value.isColliding)
                     {
                         g.Value.isColliding = true;
-                        hits++;
                         if(points < 100)
                         points += 2;
+                        hits--;
+                        if (hits == 0)
+                            state = State.Win;
                         g.Value.Ignite();
                     }
                 }
@@ -286,7 +292,7 @@ namespace GameJam1
         private void DrawGameScreen()
         {
             Vector2 playerPos = gameObjects["player"].pos;
-            Matrix transform = Matrix.CreateTranslation(-playerPos.X + WINDOW_CENTRE.X, -playerPos.Y + WINDOW_CENTRE.Y, 0);
+            Matrix transform = Matrix.CreateTranslation(WINDOW_CENTRE.X - playerPos.X - 30f, WINDOW_CENTRE.Y - playerPos.Y - 40f, 0);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, transform);
 
             #region draw
@@ -313,15 +319,35 @@ namespace GameJam1
                 }
             }
             //draw Gui
-            spriteBatch.DrawString(guiFont, hits.ToString(), gameObjects["player"].pos + new Vector2(300, 270), Color.Black);
+
             //draw rectangle
             if(points > 0)
                 Util.DrawLine(spriteBatch,new Vector2(playerPos.X - 200,playerPos.Y + 293),new Vector2(playerPos.X + (points * 4 - 200),playerPos.Y + 293),  textureList["empty"], Color.Red, 15);
             spriteBatch.Draw(textureList["bar"], new Vector2(gameObjects["player"].pos.X - 200, gameObjects["player"].pos.Y + 90),null, Color.White, 0, new Vector2(0,0), 2.1f, SpriteEffects.None, 0);
 
+            spriteBatch.DrawString(guiFont, "Villagers: " + hits.ToString(), gameObjects["player"].pos + new Vector2(80, 310), Color.Red);
+            spriteBatch.DrawString(guiFont, "Time: " + ((int)timeRemaining).ToString() + " secs", gameObjects["player"].pos + new Vector2(-360, 310), Color.Red);
+
+            DrawVillagerArrows(spriteBatch, playerPos);
+
             #endregion
 
             spriteBatch.End();
+        }
+
+        private void DrawVillagerArrows(SpriteBatch spriteBatch, Vector2 playerPos)
+        {
+            playerPos = playerPos + new Vector2(30, 40);
+            foreach (var objPair in gameObjects)
+            {
+                if (objPair.Value.IsAlive() && !objPair.Value.IsOnFire() && objPair.Key != "player")
+                {
+                    Vector2 direction = Vector2.Normalize(objPair.Value.pos - playerPos);
+                    Vector2 start = 280f * direction + playerPos;
+                    Vector2 end = 5f * direction + start;
+                    Util.DrawLine(spriteBatch, start, end, textureList["empty"], Color.White, 3);
+                }
+            }
         }
     }
 }

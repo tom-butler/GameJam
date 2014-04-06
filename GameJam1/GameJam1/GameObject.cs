@@ -93,6 +93,11 @@ namespace GameJam1
             return !IsAlive();
         }
 
+        public bool IsOnFire()
+        {
+            return (flames != null);
+        }
+
         private void OnDeath()
         {
             flames = null;
