@@ -10,7 +10,7 @@ namespace GameJam1
 {
     class Character : GameObject
     {
-        enum Direction
+        protected enum Direction
         {
             Up,
             Down,
@@ -81,7 +81,7 @@ namespace GameJam1
             return new AnimationInstance(new Animation(texture, frames), 4f);
         }
 
-        private void ChangeDirection(Direction dir)
+        protected void ChangeDirection(Direction dir)
         {
             if (direction != dir)
             {

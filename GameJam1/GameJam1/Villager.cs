@@ -63,8 +63,9 @@ namespace GameJam1
 
         public override void Draw(SpriteBatch spritebatch, float scale = 1f)
         {
-            if (deathtick > (4 * 60))
+            if (IsFinishedBurning())
                 return;
+
             else if (IsDead())
             {
                 if (deathtick % 30 == 0)
@@ -80,6 +81,11 @@ namespace GameJam1
             {
                 base.Draw(spritebatch);
             }
+        }
+
+        public bool IsFinishedBurning()
+        {
+            return deathtick > (4 * 60);
         }
 
         public override void Ignite()

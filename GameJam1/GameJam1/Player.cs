@@ -60,7 +60,10 @@ namespace GameJam1
         private Vector2? CalculateMovementDirection(KeyboardState currentState)
         {
             if (!Game1.Instance.CanMovePlayer())
+            {
+                ChangeDirection(Direction.Down);
                 return null;
+            }
 
             Vector2 directionVec = new Vector2(0, 0);
             if (currentState.IsKeyDown(Keys.Left))

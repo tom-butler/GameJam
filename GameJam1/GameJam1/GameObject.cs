@@ -45,7 +45,7 @@ namespace GameJam1
             {
                 flames.pos = pos + new Vector2(-5, -40);
                 flames.Update();
-                TakeDamage(0.5f);
+                TakeDamage(1f);
             }
         }
 
