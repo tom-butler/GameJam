@@ -52,6 +52,7 @@ namespace GameJam1
         const int WINDOW_HEIGHT = 640;
         const int WINDOW_WIDTH = 800;
         static Vector2 WINDOW_CENTRE = new Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        const float TIME = 40f;
 
         private static Game1 instance;
         public static Game1 Instance
@@ -181,7 +182,7 @@ namespace GameJam1
             {
                 tick = 0;
                 points = 0;
-                timeRemaining = 30f;
+                timeRemaining = TIME;
                 state = State.Running;
                 MediaPlayer.Play(music);
                 hits = 0;
