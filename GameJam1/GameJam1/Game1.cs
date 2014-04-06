@@ -171,7 +171,7 @@ namespace GameJam1
 
         private void RunGameOnSpacePressed()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) || Mouse.GetState().LeftButton == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 points = 0;
                 timeRemaining = 30f;
