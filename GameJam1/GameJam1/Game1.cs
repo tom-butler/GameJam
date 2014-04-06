@@ -121,6 +121,7 @@ namespace GameJam1
             sounds = new Dictionary<string, SoundEffect>();
             sounds.Add("scream1", this.Content.Load<SoundEffect>(@"sounds/scream2"));
             sounds.Add("scream2", this.Content.Load<SoundEffect>(@"sounds/scream3"));
+            sounds.Add("rampage", this.Content.Load<SoundEffect>(@"sounds/rampage"));
 
             music = this.Content.Load<Song>(@"sounds/DST-ClubFight");
 

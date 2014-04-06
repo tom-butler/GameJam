@@ -95,6 +95,8 @@ namespace GameJam1
             speed = RAMPAGE_SPEED;
             SetAnimationFPS(speed * 2f);
             scale = 2f;
+
+            Game1.Instance.playSound("rampage");
         }
 
         public bool IsRampaging()
