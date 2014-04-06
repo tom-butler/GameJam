@@ -39,6 +39,8 @@ namespace GameJam1
         static bool isDebug;
         static SpriteFont debugFont;
         static SpriteFont guiFont;
+        static Vector2 playerPos;
+        static float points = 0;
 
 
         //constants
@@ -112,6 +114,7 @@ namespace GameJam1
             textureList.Add("title_screen", this.Content.Load<Texture2D>(@"images/title_screen"));
             textureList.Add("win_screen", this.Content.Load<Texture2D>(@"images/win_screen"));
             textureList.Add("lose_screen", this.Content.Load<Texture2D>(@"images/lose_screen"));
+            textureList.Add("bar", this.Content.Load<Texture2D>(@"images/bar"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
 
@@ -155,6 +158,7 @@ namespace GameJam1
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Space) || Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
+                points = 0;
                 timeRemaining = 20f;
                 state = State.Running;
                 MediaPlayer.Play(music);
@@ -174,7 +178,6 @@ namespace GameJam1
             KeyboardState prevKeyState = keystate;
             keystate = Keyboard.GetState();
 
-            
 
             // Allows the game to exit
             if (keystate.IsKeyDown(Keys.Escape))
@@ -214,6 +217,8 @@ namespace GameJam1
                     {
                         g.Value.isColliding = true;
                         hits++;
+                        if(points < 100)
+                        points += 2;
                         g.Value.Ignite();
                     }
                 }
@@ -225,6 +230,9 @@ namespace GameJam1
                 state = State.Lose;
                 MediaPlayer.Stop();
             }
+            playerPos = gameObjects["player"].pos;
+            if (points >= 0)
+            points -= 0.01f;
         }
 
         /// <summary>
@@ -306,7 +314,10 @@ namespace GameJam1
             }
             //draw Gui
             spriteBatch.DrawString(guiFont, hits.ToString(), gameObjects["player"].pos + new Vector2(300, 270), Color.Red);
-
+            //draw rectangle
+            if(points > 0)
+                Util.DrawLine(spriteBatch,new Vector2(playerPos.X - 200,playerPos.Y + 293),new Vector2(playerPos.X + (points * 4 - 200),playerPos.Y + 293),  textureList["empty"], Color.Red, 15);
+            spriteBatch.Draw(textureList["bar"], new Vector2(gameObjects["player"].pos.X - 200, gameObjects["player"].pos.Y + 90),null, Color.White, 0, new Vector2(0,0), 2.1f, SpriteEffects.None, 0);
 
             #endregion
 
