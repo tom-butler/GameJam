@@ -181,6 +181,7 @@ namespace GameJam1
         {
             KeyboardState prevKeyState = keystate;
             keystate = Keyboard.GetState();
+            Player player = (Player)gameObjects["player"];
 
 
             // Allows the game to exit
@@ -217,11 +218,20 @@ namespace GameJam1
             {
                 if (g.Key != "player")
                 {
-                    if (gameObjects["player"].boundingBox.collides(g.Value) && !g.Value.isColliding)
+                    if (player.boundingBox.collides(g.Value) && !g.Value.isColliding)
                     {
                         g.Value.isColliding = true;
-                        if(points < 100)
-                        points += 2;
+
+                        if (!player.IsRampaging())
+                        {
+                            points += 8;
+                            if (points > 100)
+                            {
+                                player.Rampage();
+                                points = 0;
+                            }
+                        }
+
                         hits--;
                         if (hits == 0)
                             state = State.Win;
@@ -238,7 +248,7 @@ namespace GameJam1
             }
             playerPos = gameObjects["player"].pos;
             if (points >= 0)
-            points -= 0.01f;
+                points -= 0.1f;
         }
 
         /// <summary>
@@ -291,8 +301,12 @@ namespace GameJam1
 
         private void DrawGameScreen()
         {
-            Vector2 playerPos = gameObjects["player"].pos;
-            Matrix transform = Matrix.CreateTranslation(WINDOW_CENTRE.X - playerPos.X - 30f, WINDOW_CENTRE.Y - playerPos.Y - 40f, 0);
+            Player player = (Player)gameObjects["player"];
+            Vector2 playerPos = player.pos;
+            Vector2 playerSize = player.GetCurrentSize();
+            Vector2 cameraCenter = new Vector2(playerPos.X + playerSize.X / 2f, playerPos.Y + playerSize.Y/2f);
+           
+            Matrix transform = Matrix.CreateTranslation(WINDOW_CENTRE.X - cameraCenter.X, WINDOW_CENTRE.Y - cameraCenter.Y, 0);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, transform);
 
             #region draw
@@ -319,33 +333,47 @@ namespace GameJam1
                 }
             }
             //draw Gui
+            int lineHeight = 100;
+            Util.DrawLine(spriteBatch,
+                new Vector2(cameraCenter.X - WINDOW_WIDTH / 2f - 5, cameraCenter.Y + WINDOW_HEIGHT / 2f - lineHeight / 2f),
+                new Vector2(cameraCenter.X - WINDOW_WIDTH / 2f + 110, cameraCenter.Y + WINDOW_HEIGHT / 2f - lineHeight / 2f),
+                textureList["empty"], Color.Black, lineHeight);
+            Util.DrawLine(spriteBatch,
+                new Vector2(cameraCenter.X + WINDOW_WIDTH / 2f - 185, cameraCenter.Y + WINDOW_HEIGHT / 2f - lineHeight / 2f),
+                new Vector2(cameraCenter.X + WINDOW_WIDTH / 2f + 5, cameraCenter.Y + WINDOW_HEIGHT / 2f - lineHeight / 2f),
+                textureList["empty"], Color.Black, lineHeight);
 
             //draw rectangle
-            if(points > 0)
-                Util.DrawLine(spriteBatch,new Vector2(playerPos.X - 200,playerPos.Y + 293),new Vector2(playerPos.X + (points * 4 - 200),playerPos.Y + 293),  textureList["empty"], Color.Red, 15);
-            spriteBatch.Draw(textureList["bar"], new Vector2(gameObjects["player"].pos.X - 200, gameObjects["player"].pos.Y + 90),null, Color.White, 0, new Vector2(0,0), 2.1f, SpriteEffects.None, 0);
+            float barWidth = points;
+            if (player.IsRampaging())
+                barWidth = player.RampagePercentLeft();
 
-            spriteBatch.DrawString(guiFont, "Villagers: " + hits.ToString(), gameObjects["player"].pos + new Vector2(80, 310), Color.Red);
-            spriteBatch.DrawString(guiFont, "Time: " + ((int)timeRemaining).ToString() + " secs", gameObjects["player"].pos + new Vector2(-360, 310), Color.Red);
+            if (barWidth > 0)
+                Util.DrawLine(spriteBatch, new Vector2(cameraCenter.X - 198, cameraCenter.Y + 293), new Vector2(cameraCenter.X + (barWidth * 4 - 200), cameraCenter.Y + 293), textureList["empty"], Color.Red, 15);
+            spriteBatch.Draw(textureList["bar"], new Vector2(cameraCenter.X - 200, cameraCenter.Y + 90), null, Color.White, 0, new Vector2(0, 0), 2.1f, SpriteEffects.None, 0);
 
-            DrawVillagerArrows(spriteBatch, playerPos);
+           
+
+            spriteBatch.DrawString(guiFont, "Villagers: " + hits.ToString(), cameraCenter + new Vector2(230, 280), Color.Red);
+            spriteBatch.DrawString(guiFont, "Time: " + ((int)timeRemaining).ToString() + " secs", cameraCenter + new Vector2(-390, 280), Color.Red);
+
+            DrawVillagerArrows(spriteBatch, cameraCenter);
 
             #endregion
 
             spriteBatch.End();
         }
 
-        private void DrawVillagerArrows(SpriteBatch spriteBatch, Vector2 playerPos)
+        private void DrawVillagerArrows(SpriteBatch spriteBatch, Vector2 center)
         {
-            playerPos = playerPos + new Vector2(30, 40);
             foreach (var objPair in gameObjects)
             {
                 if (objPair.Value.IsAlive() && !objPair.Value.IsOnFire() && objPair.Key != "player")
                 {
                     Vector2 direction = Vector2.Normalize(objPair.Value.pos - playerPos);
-                    Vector2 start = 280f * direction + playerPos;
+                    Vector2 start = 220f * direction + center;
                     Vector2 end = 5f * direction + start;
-                    Util.DrawLine(spriteBatch, start, end, textureList["empty"], Color.White, 3);
+                    Util.DrawLine(spriteBatch, start, end, textureList["empty"], new Color(128, 90, 90), 3);
                 }
             }
         }

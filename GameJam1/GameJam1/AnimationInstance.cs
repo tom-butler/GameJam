@@ -57,9 +57,9 @@ namespace GameJam1
             secsElapsed = 0f;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, float scale = 1f)
         {
-            spriteBatch.Draw(Animation.Texture, position, GetCurrentFrame(), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+            spriteBatch.Draw(Animation.Texture, position, GetCurrentFrame(), Color.White, 0f, new Vector2(0, 0), scale, SpriteEffects.None, 0);
         }
 
         private void GoNextFrame()

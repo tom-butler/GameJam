@@ -23,9 +23,9 @@ namespace GameJam1
             animation.Update(1f / 60f);
         }
 
-        public override void Draw(SpriteBatch spritebatch)
+        public override void Draw(SpriteBatch spritebatch, float scale = 1f)
         {
-            spritebatch.Draw(texture, pos, animation.GetCurrentFrame(), Color.White, 0f, new Microsoft.Xna.Framework.Vector2(0, 0), 1f, SpriteEffects.None, 0);
+            spritebatch.Draw(texture, pos, animation.GetCurrentFrame(), Color.White, 0f, new Microsoft.Xna.Framework.Vector2(0, 0), scale, SpriteEffects.None, 0);
         }
     }
 }

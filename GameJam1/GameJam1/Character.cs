@@ -33,9 +33,9 @@ namespace GameJam1
             ChangeDirection(Direction.Down);
         }
 
-        public override void Draw(SpriteBatch spritebatch)
+        public override void Draw(SpriteBatch spritebatch, float scale = 1f)
         {
-            animations[direction].Draw(spritebatch, pos);
+            animations[direction].Draw(spritebatch, pos, scale);
             base.Draw(spritebatch);
         }
         
@@ -43,6 +43,7 @@ namespace GameJam1
         public override void Update()
         {
             this.boundingBox.Update(pos, GetCurrentSize());
+
             base.Update();
         }
 
@@ -77,7 +78,7 @@ namespace GameJam1
             frames[FRAMES_PER_ROW] = frames[1]; //repeating pattern
             
 
-            return new AnimationInstance(new Animation(texture, frames), AnimationFPS());
+            return new AnimationInstance(new Animation(texture, frames), 4f);
         }
 
         private void ChangeDirection(Direction dir)
@@ -115,15 +116,17 @@ namespace GameJam1
             }
         }
 
-        protected Vector2 GetCurrentSize()
+        public virtual Vector2 GetCurrentSize()
         {
             Rectangle r = animations[direction].GetCurrentFrame();
             return new Vector2(r.Width, r.Height);
         }
 
-        protected virtual float AnimationFPS()
+        protected void SetAnimationFPS(float fps)
         {
-            return 4f;
+            foreach(var elem in animations){
+                elem.Value.SecsPerFrame = 1.0f / fps;
+            }
         }
     }
 }

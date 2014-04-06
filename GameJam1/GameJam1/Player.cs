@@ -10,19 +10,36 @@ namespace GameJam1
 {
     class Player : Character
     {
-        const float VELOCITY = 10f;
+        const float DEFAULT_SPEED = 10f;
+        const float RAMPAGE_SPEED = 20f;
+        const int RAMPAGE_TICKS = 5 * 60;
+
+        private int rampageRemaining;
+        private float speed;
+        private float scale;
 
         public Player(Texture2D tex, Vector2 pos)
             : base(tex, pos)
         {
+            rampageRemaining = 0;
+            speed = DEFAULT_SPEED;
+            SetAnimationFPS(speed * 2f);
+            scale = 1f;
         }
 
         public void Update(KeyboardState currentState)
         {
+            if(rampageRemaining == 1)
+                EndRampage();
+
+            if(rampageRemaining > 0)
+                --rampageRemaining;
+
+            
             Vector2? directionVec = CalculateMovementDirection(currentState);
             if (directionVec.HasValue)
             {
-                Vector2 displacement = VELOCITY * directionVec.Value;
+                Vector2 displacement = speed * directionVec.Value;
                 pos.X += displacement.X;
                 pos.Y += displacement.Y;
                 UpdateAnimation(displacement);
@@ -31,7 +48,13 @@ namespace GameJam1
             {
                 UpdateAnimation(null);
             }
+
             base.Update();
+        }
+
+        public override void Draw(SpriteBatch spritebatch, float frankieboy = 1f)
+        {
+            base.Draw(spritebatch, scale);
         }
 
         private Vector2? CalculateMovementDirection(KeyboardState currentState)
@@ -61,14 +84,39 @@ namespace GameJam1
                 return null;
         }
 
-        protected override float AnimationFPS()
-        {
-            return VELOCITY * 2f;
-        }
-
         public override void TakeDamage(float damage)
         {
             //do nothing. can't die
+        }
+
+        public void Rampage()
+        {
+            rampageRemaining = RAMPAGE_TICKS;
+            speed = RAMPAGE_SPEED;
+            SetAnimationFPS(speed * 2f);
+            scale = 2f;
+        }
+
+        public bool IsRampaging()
+        {
+            return rampageRemaining > 0;
+        }
+
+        public float RampagePercentLeft()
+        {
+            return 100f * ((float)rampageRemaining / (float)RAMPAGE_TICKS);
+        }
+
+        private void EndRampage()
+        {
+            speed = DEFAULT_SPEED;
+            SetAnimationFPS(speed * 2f);
+            scale = 1f;
+        }
+
+        public override Vector2 GetCurrentSize()
+        {
+            return scale * base.GetCurrentSize();
         }
     }
 }

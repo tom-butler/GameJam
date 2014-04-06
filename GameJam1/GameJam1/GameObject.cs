@@ -49,11 +49,11 @@ namespace GameJam1
             }
         }
 
-        public virtual void Draw(SpriteBatch spritebatch)
+        public virtual void Draw(SpriteBatch spritebatch, float scale = 1f)
         {
             //spritebatch.Draw(texture, pos, Color.White);
             if (flames != null)
-                flames.Draw(spritebatch);
+                flames.Draw(spritebatch, scale);
         }
 
         public void DrawBB(SpriteBatch spritebatch, Texture2D tex)

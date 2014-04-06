@@ -61,7 +61,7 @@ namespace GameJam1
             base.Update();
         }
 
-        public override void Draw(SpriteBatch spritebatch)
+        public override void Draw(SpriteBatch spritebatch, float scale = 1f)
         {
             if (deathtick > (4 * 60))
                 return;
