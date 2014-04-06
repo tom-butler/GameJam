@@ -4,3 +4,6 @@ GameJam1/GameJam1/obj/
 *.exe
 *.dll
 *.xnb
+*.xml
+*.contentproj
+*.cachefile

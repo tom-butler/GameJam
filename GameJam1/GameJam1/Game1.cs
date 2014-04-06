@@ -23,6 +23,7 @@ namespace GameJam1
         Dictionary<string, Texture2D> textureList;
         Dictionary<string, SoundEffect> sounds;
         Dictionary<string, GameObject> gameObjects;
+        Song music;
         static int hits = 0;
         string state;
         static KeyboardState keystate;
@@ -105,6 +106,9 @@ namespace GameJam1
             sounds = new Dictionary<string, SoundEffect>();
             sounds.Add("scream1", this.Content.Load<SoundEffect>(@"sounds/scream2"));
             sounds.Add("scream2", this.Content.Load<SoundEffect>(@"sounds/scream3"));
+
+            music = this.Content.Load<Song>(@"sounds/DST-ClubFight");
+            MediaPlayer.Play(music);
 
             //Load the font
             debugFont = Content.Load<SpriteFont>(@"fonts/debug");
