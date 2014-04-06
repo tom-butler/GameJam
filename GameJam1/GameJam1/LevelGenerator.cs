@@ -10,7 +10,7 @@ namespace GameJam1
     class LevelGenerator
     {
         const float RADIUS = 1000f;
-        public const int NPC_COUNT = 50;
+        public const int NPC_COUNT = 1;
 
         private Dictionary<string, Texture2D> textures;
         private Random random = new Random();

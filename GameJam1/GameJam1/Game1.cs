@@ -21,6 +21,7 @@ namespace GameJam1
         {
             Title,
             Running,
+            AboutToWin,
             Lose,
             Win
         }
@@ -146,10 +147,21 @@ namespace GameJam1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (state == State.Running)
+            if (state == State.AboutToWin)
+            {
                 UpdateGameScreen();
+                if (AllVillagersAreDead())
+                    state = State.Win;
+            }
+            else if (state == State.Running)
+            {
+                UpdateGameScreen();
+                UpdateTimeRemaining();
+            }
             else
+            {
                 RunGameOnSpacePressed();
+            }
             
 
             base.Update(gameTime);
@@ -235,21 +247,26 @@ namespace GameJam1
 
                         hits--;
                         if (hits == 0)
-                            state = State.Win;
+                            state = State.AboutToWin;
                         g.Value.Ignite();
                     }
                 }
             }
 
+            
+            playerPos = gameObjects["player"].pos;
+            if (points >= 0)
+                points -= 0.1f;
+        }
+
+        private void UpdateTimeRemaining()
+        {
             timeRemaining -= 1f / 60f;
             if (timeRemaining <= 0f)
             {
                 state = State.Lose;
                 MediaPlayer.Stop();
             }
-            playerPos = gameObjects["player"].pos;
-            if (points >= 0)
-                points -= 0.1f;
         }
 
         /// <summary>
@@ -260,7 +277,7 @@ namespace GameJam1
         {
             GraphicsDevice.Clear(Color.SandyBrown);
 
-            if (state == State.Running)
+            if (state == State.Running || state == State.AboutToWin)
             {
                 DrawGameScreen();
             }
@@ -367,16 +384,39 @@ namespace GameJam1
 
         private void DrawVillagerArrows(SpriteBatch spriteBatch, Vector2 center)
         {
+            const float RADIUS = 220f;
+
             foreach (var objPair in gameObjects)
             {
                 if (objPair.Value.IsAlive() && !objPair.Value.IsOnFire() && objPair.Key != "player")
                 {
-                    Vector2 direction = Vector2.Normalize(objPair.Value.pos - playerPos);
-                    Vector2 start = 220f * direction + center;
-                    Vector2 end = 5f * direction + start;
-                    Util.DrawLine(spriteBatch, start, end, textureList["empty"], new Color(128, 90, 90), 3);
+                    Vector2 diff = objPair.Value.pos - playerPos;
+                    if (diff.Length() > RADIUS)
+                    {
+                        Vector2 direction = Vector2.Normalize(diff);
+                        Vector2 start = Math.Min(diff.Length(), 220f) * direction + center;
+                        Vector2 end = 5f * direction + start;
+                        Util.DrawLine(spriteBatch, start, end, textureList["empty"], new Color(128, 90, 90), 3);
+                    }
                 }
             }
+        }
+
+        private bool AllVillagersAreDead()
+        {
+            foreach (var elem in gameObjects)
+            {
+                if (elem.Key != "player" && elem.Value.IsAlive())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool CanMovePlayer()
+        {
+            return state == State.Running;
         }
     }
 }
