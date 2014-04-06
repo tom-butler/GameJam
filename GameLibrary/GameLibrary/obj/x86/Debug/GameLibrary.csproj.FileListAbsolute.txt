@@ -13,4 +13,3 @@ H:\GameJam\GameLibrary\GameLibrary\bin\x86\Debug\GameLibrary.pdb
 H:\GameJam\GameLibrary\GameLibrary\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 H:\GameJam\GameLibrary\GameLibrary\obj\x86\Debug\GameLibrary.dll
 H:\GameJam\GameLibrary\GameLibrary\obj\x86\Debug\GameLibrary.pdb
-H:\GameJam\GameLibrary\GameLibrary\obj\x86\Debug\GameLibrary.csprojResolveAssemblyReference.cache

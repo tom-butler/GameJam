@@ -70,7 +70,7 @@ namespace GameJam1
             textureList = new Dictionary<string, Texture2D>();
 
             //set starting state should be menu (later)
-            state = "playing";
+            state = "title";
 
             //set the window size
             graphics.IsFullScreen = false;
@@ -98,6 +98,7 @@ namespace GameJam1
             textureList.Add("villager1", this.Content.Load<Texture2D>(@"images/villager1"));
             textureList.Add("villager2", this.Content.Load<Texture2D>(@"images/villager2"));
             textureList.Add("flames", this.Content.Load<Texture2D>(@"images/flames"));
+            textureList.Add("title_screen", this.Content.Load<Texture2D>(@"images/title_screen"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
 
@@ -137,6 +138,12 @@ namespace GameJam1
         {
             KeyboardState prevKeyState = keystate;
             keystate = Keyboard.GetState();
+
+            if (state == "title" && (keystate.GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed))
+            {
+                state = "running";
+                return;
+            }
 
             // Allows the game to exit
             if (keystate.IsKeyDown(Keys.Escape))
@@ -190,8 +197,40 @@ namespace GameJam1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            Vector2 playerPos = gameObjects["player"].pos;
             GraphicsDevice.Clear(Color.SandyBrown);
+
+            if (state == "title")
+            {
+                DrawTitleScreen();
+            }
+            else
+            {
+                DrawGameScreen();
+            }
+            
+            base.Draw(gameTime);
+        }
+
+        public Flames makeFlames()
+        {
+            return new Flames(textureList["flames"]);
+        }
+
+        public void playSound(string name)
+        {
+            sounds[name].Play();
+        }
+
+        private void DrawTitleScreen()
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(textureList["title_screen"], new Vector2(0, 0), Color.White);
+            spriteBatch.End();
+        }
+
+        private void DrawGameScreen()
+        {
+            Vector2 playerPos = gameObjects["player"].pos;
             Matrix transform = Matrix.CreateTranslation(-playerPos.X + WINDOW_CENTRE.X, -playerPos.Y + WINDOW_CENTRE.Y, 0);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null, null, transform);
 
@@ -210,32 +249,21 @@ namespace GameJam1
             {
                 foreach (var g in gameObjects)
                 {
-                        g.Value.DrawBB(spriteBatch, textureList["empty"]);
-                        if (g.Value.isColliding == true)
-                        {
-                            spriteBatch.DrawString(debugFont, "collided", g.Value.pos, Color.Red);
-                        }
-                        spriteBatch.DrawString(debugFont, g.Value.pos.ToString(), g.Value.pos + new Vector2 ( 0, 10), Color.Red);
+                    g.Value.DrawBB(spriteBatch, textureList["empty"]);
+                    if (g.Value.isColliding == true)
+                    {
+                        spriteBatch.DrawString(debugFont, "collided", g.Value.pos, Color.Red);
+                    }
+                    spriteBatch.DrawString(debugFont, g.Value.pos.ToString(), g.Value.pos + new Vector2(0, 10), Color.Red);
                 }
             }
             //draw Gui
             spriteBatch.DrawString(guiFont, hits.ToString(), gameObjects["player"].pos + new Vector2(300, 270), Color.Red);
-            
+
 
             #endregion
 
             spriteBatch.End();
-            base.Draw(gameTime);
-        }
-
-        public Flames makeFlames()
-        {
-            return new Flames(textureList["flames"]);
-        }
-
-        public void playSound(string name)
-        {
-            sounds[name].Play();
         }
     }
 }

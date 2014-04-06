@@ -47,6 +47,15 @@
       <Time>2014-04-05T17:26:27.8215423+11:00</Time>
     </Item>
     <Item>
+      <Source>images\title_screen.jpg</Source>
+      <Name>images\title_screen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\GameJam\GameJam1\GameJam1\bin\x86\Debug\Content\images\title_screen.xnb</Output>
+      <Time>2014-04-06T10:31:23.1590395+10:00</Time>
+    </Item>
+    <Item>
       <Source>fonts\debug.spritefont</Source>
       <Name>fonts\debug</Name>
       <Importer>FontDescriptionImporter</Importer>
