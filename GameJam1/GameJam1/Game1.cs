@@ -126,7 +126,7 @@ namespace GameJam1
 
             //Load the font
             debugFont = Content.Load<SpriteFont>(@"fonts/debug");
-            guiFont = Content.Load<SpriteFont>(@"fonts/gui");
+            guiFont = Content.Load<SpriteFont>(@"fonts/metal");
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace GameJam1
                 }
             }
             //draw Gui
-            spriteBatch.DrawString(guiFont, hits.ToString(), gameObjects["player"].pos + new Vector2(300, 270), Color.Red);
+            spriteBatch.DrawString(guiFont, hits.ToString(), gameObjects["player"].pos + new Vector2(300, 270), Color.Black);
             //draw rectangle
             if(points > 0)
                 Util.DrawLine(spriteBatch,new Vector2(playerPos.X - 200,playerPos.Y + 293),new Vector2(playerPos.X + (points * 4 - 200),playerPos.Y + 293),  textureList["empty"], Color.Red, 15);
