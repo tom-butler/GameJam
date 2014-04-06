@@ -33,6 +33,7 @@ namespace GameJam1
         Dictionary<string, SoundEffect> sounds;
         Dictionary<string, GameObject> gameObjects;
         Song music;
+        Song winMusic;
         float timeRemaining;
         int hits;
         State state;
@@ -124,6 +125,7 @@ namespace GameJam1
             sounds.Add("scream2", this.Content.Load<SoundEffect>(@"sounds/scream3"));
             sounds.Add("rampage", this.Content.Load<SoundEffect>(@"sounds/rampage"));
 
+            winMusic = this.Content.Load<Song>(@"sounds/win");
             music = this.Content.Load<Song>(@"sounds/DST-ClubFight");
 
             //Load the font
@@ -169,8 +171,6 @@ namespace GameJam1
 
         private void RunGameOnSpacePressed()
         {
-            MediaPlayer.Stop();
-
             if (Keyboard.GetState().IsKeyDown(Keys.Space) || Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 points = 0;
@@ -247,7 +247,10 @@ namespace GameJam1
 
                         hits--;
                         if (hits == 0)
+                        {
                             state = State.AboutToWin;
+                            MediaPlayer.Play(winMusic);
+                        }
                         g.Value.Ignite();
                     }
                 }
@@ -406,7 +409,7 @@ namespace GameJam1
         {
             foreach (var elem in gameObjects)
             {
-                if (elem.Key != "player" && elem.Value.IsAlive())
+                if (elem.Key != "player" && (elem.Value.IsAlive() || !((Villager)elem.Value).IsFinishedBurning()))
                 {
                     return false;
                 }
