@@ -39,11 +39,14 @@ namespace GameJam1
         State state;
         static KeyboardState keystate;
         static bool isDebug;
+        //fonts
         static SpriteFont debugFont;
         static SpriteFont guiFont;
+        static SpriteFont rampageFont;
+
         static Vector2 playerPos;
         static float points = 0;
-
+        int tick;
 
         //constants
         const int WINDOW_HEIGHT = 640;
@@ -117,6 +120,7 @@ namespace GameJam1
             textureList.Add("win_screen", this.Content.Load<Texture2D>(@"images/success"));
             textureList.Add("lose_screen", this.Content.Load<Texture2D>(@"images/failed"));
             textureList.Add("bar", this.Content.Load<Texture2D>(@"images/bar"));
+            textureList.Add("pentagram", this.Content.Load<Texture2D>(@"images/pentagram"));
             textureList.Add("empty", new Texture2D(GraphicsDevice, 1, 1));
             textureList["empty"].SetData(new Color[] { Color.White });
 
@@ -131,6 +135,7 @@ namespace GameJam1
             //Load the font
             debugFont = Content.Load<SpriteFont>(@"fonts/debug");
             guiFont = Content.Load<SpriteFont>(@"fonts/metal");
+            rampageFont = Content.Load<SpriteFont>(@"fonts/rampage");
         }
 
         /// <summary>
@@ -173,6 +178,7 @@ namespace GameJam1
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
+                tick = 0;
                 points = 0;
                 timeRemaining = 30f;
                 state = State.Running;
@@ -278,6 +284,7 @@ namespace GameJam1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            tick++;
             GraphicsDevice.Clear(Color.SandyBrown);
 
             if (state == State.Running || state == State.AboutToWin)
@@ -334,6 +341,11 @@ namespace GameJam1
             //draw the background
             Vector2 backgroundPos = Vector2.Transform(new Vector2(0, 0), Matrix.Invert(transform));
             spriteBatch.Draw(textureList["background"], backgroundPos, new Rectangle((int)playerPos.X, (int)playerPos.Y, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
+            //draw pentagram
+            
+
+                spriteBatch.Draw(textureList["pentagram"], new Vector2((float)(WINDOW_HEIGHT / 2), (float)(WINDOW_WIDTH / 2)), null, Color.White, 0f, new Vector2(-5,100), 1f, SpriteEffects.None, 0);
+            
 
             //draw game objects
             foreach (var g in gameObjects)
@@ -369,7 +381,7 @@ namespace GameJam1
             if (player.IsRampaging())
                 barWidth = player.RampagePercentLeft();
 
-            Color barColor = player.RampageFlash() ? Color.White : Color.Red;
+            Color barColor = player.RampageFlash() ? Color.Yellow : Color.Red;
 
             if (barWidth > 0)
                 Util.DrawLine(spriteBatch, new Vector2(cameraCenter.X - 198, cameraCenter.Y + 293), new Vector2(cameraCenter.X + (barWidth * 4 - 198), cameraCenter.Y + 293), textureList["empty"], barColor, 15);
@@ -377,7 +389,7 @@ namespace GameJam1
 
             if (player.RampageFlash())
             {
-                spriteBatch.DrawString(guiFont, "RAMPAGE!", cameraCenter + new Vector2(-100, -300), Color.Red);
+                spriteBatch.DrawString(rampageFont, "RAMPAGE!", cameraCenter + new Vector2(-200, -300), Color.Black);
             }
            
 
